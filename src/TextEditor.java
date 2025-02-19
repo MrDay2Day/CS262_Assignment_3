@@ -6,6 +6,11 @@ import java.io.*;
 
 public class TextEditor extends JFrame {
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Create the main frame
         JFrame frame = new JFrame("Text Editor");
 
@@ -34,6 +39,7 @@ public class TextEditor extends JFrame {
         // Text Area
         JTextArea textArea = new JTextArea(5, 20);
         textArea.setText("This is a simple text editor written is Java.");
+        textArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         frame.add(textArea);
 
         newMenuItem.addActionListener(new ActionListener() {

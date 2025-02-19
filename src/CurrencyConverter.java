@@ -8,15 +8,21 @@ import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class CurrencyConverter extends JFrame {
     public static void main(String[] args){
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         JFrame mainFrame = new JFrame("Currency Calculator");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel_1 = new JPanel();
-        panel_1.setLayout(new GridLayout(3, 2, 1, 1));
+        panel_1.setLayout(new GridLayout(3, 2, 5, 5));
+        panel_1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Row 1
         JLabel label_1 = new JLabel("Input $:");
@@ -43,9 +49,10 @@ public class CurrencyConverter extends JFrame {
         panel_1.add(txtf_jmd);
 
         int panel_1_width = 230;
-        panel_1.setPreferredSize(new Dimension(panel_1_width, 70));
-        panel_1.setMaximumSize(new Dimension(panel_1_width, 70));
-        panel_1.setMinimumSize(new Dimension(panel_1_width, 70));
+        int panel_1_height = 100;
+        panel_1.setPreferredSize(new Dimension(panel_1_width, panel_1_height));
+        panel_1.setMaximumSize(new Dimension(panel_1_width, panel_1_height));
+        panel_1.setMinimumSize(new Dimension(panel_1_width, panel_1_height));
 
         JPanel panel_2 = new JPanel();
         panel_2.setLayout(new GridLayout(1, 2, 10, 15));
@@ -56,13 +63,15 @@ public class CurrencyConverter extends JFrame {
         btn_convert.setEnabled(false);
         panel_2.add(btn_convert);
         panel_2.add(btn_clear);
-        int panel_2_width = 200;
-        panel_2.setPreferredSize(new Dimension(panel_2_width, 25));
-        panel_2.setMaximumSize(new Dimension(panel_2_width, 25));
-        panel_2.setMinimumSize(new Dimension(panel_2_width, 25));
+        int panel_2_width = 240;
+        int panel_2_height = 30;
+        panel_2.setPreferredSize(new Dimension(panel_2_width, panel_2_height));
+        panel_2.setMaximumSize(new Dimension(panel_2_width, panel_2_height));
+        panel_2.setMinimumSize(new Dimension(panel_2_width, panel_2_height));
+        panel_2.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
 
 
-        mainFrame.setSize(new Dimension(panel_1_width + 30, 150));
+        mainFrame.setSize(new Dimension(panel_1_width + 30, 170));
         mainFrame.setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.Y_AXIS));
 
         txtf_input.addActionListener(new ActionListener() {
@@ -114,7 +123,7 @@ public class CurrencyConverter extends JFrame {
                 String convertTo = (String) comboBox.getSelectedItem();
                 double amount = Double.parseDouble(txtf_input.getText());
 
-                switch (Objects.requireNonNull(convertTo)){
+                switch (convertTo){
                     case "US":
                         txtf_jmd.setText(String.format("%.2f", amount * 129.02));
                         break;
@@ -125,6 +134,8 @@ public class CurrencyConverter extends JFrame {
                         txtf_jmd.setText(String.format("%.2f", amount * 164.33));
                         break;
 
+                    case null:
+                        break;
 
                     default:
                         throw new IllegalStateException("Unexpected value: " + convertTo);
